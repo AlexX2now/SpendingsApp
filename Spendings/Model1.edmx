@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Эко_РегионыModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="regions$">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="spendings$">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код региона" Type="int" />
+          <Property Name="Код статьи затрат" Type="int" />
+          <Property Name="Сумма" Type="float" />
+          <Property Name="Год" Type="nchar" MaxLength="4" />
+        </EntityType>
+        <EntityType Name="states$">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="125" />
+        </EntityType>
+        <Association Name="FK_spendings$_regions$">
+          <End Role="regions$" Type="Self.regions$" Multiplicity="0..1" />
+          <End Role="spendings$" Type="Self.spendings$" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="regions$">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="spendings$">
+              <PropertyRef Name="Код региона" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spendings$_states$">
+          <End Role="states$" Type="Self.states$" Multiplicity="0..1" />
+          <End Role="spendings$" Type="Self.spendings$" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="states$">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="spendings$">
+              <PropertyRef Name="Код статьи затрат" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Эко_РегионыModelContainer">
+          <EntitySet Name="regions$" EntityType="Self.regions$" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="spendings$" EntityType="Self.spendings$" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="states$" EntityType="Self.states$" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_spendings$_regions$" Association="Self.FK_spendings$_regions$">
+            <End Role="regions$" EntitySet="regions$" />
+            <End Role="spendings$" EntitySet="spendings$" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spendings$_states$" Association="Self.FK_spendings$_states$">
+            <End Role="states$" EntitySet="states$" />
+            <End Role="spendings$" EntitySet="spendings$" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Эко_РегионыModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="regions_">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="spendings_" Relationship="Self.FK_spendings__regions_" FromRole="regions_" ToRole="spendings_" />
+        </EntityType>
+        <EntityType Name="spendings_">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_региона" Type="Int32" />
+          <Property Name="Код_статьи_затрат" Type="Int32" />
+          <Property Name="Сумма" Type="Double" />
+          <Property Name="Год" Type="String" MaxLength="4" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="regions_" Relationship="Self.FK_spendings__regions_" FromRole="spendings_" ToRole="regions_" />
+          <NavigationProperty Name="states_" Relationship="Self.FK_spendings__states_" FromRole="spendings_" ToRole="states_" />
+        </EntityType>
+        <EntityType Name="states_">
+          <Key>
+            <PropertyRef Name="Код" />
+          </Key>
+          <Property Name="Код" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="125" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="spendings_" Relationship="Self.FK_spendings__states_" FromRole="states_" ToRole="spendings_" />
+        </EntityType>
+        <Association Name="FK_spendings__regions_">
+          <End Role="regions_" Type="Self.regions_" Multiplicity="0..1" />
+          <End Role="spendings_" Type="Self.spendings_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="regions_">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="spendings_">
+              <PropertyRef Name="Код_региона" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_spendings__states_">
+          <End Role="states_" Type="Self.states_" Multiplicity="0..1" />
+          <End Role="spendings_" Type="Self.spendings_" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="states_">
+              <PropertyRef Name="Код" />
+            </Principal>
+            <Dependent Role="spendings_">
+              <PropertyRef Name="Код_статьи_затрат" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Эко_РегионыEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="regions_" EntityType="Self.regions_" />
+          <EntitySet Name="spendings_" EntityType="Self.spendings_" />
+          <EntitySet Name="states_" EntityType="Self.states_" />
+          <AssociationSet Name="FK_spendings__regions_" Association="Self.FK_spendings__regions_">
+            <End Role="regions_" EntitySet="regions_" />
+            <End Role="spendings_" EntitySet="spendings_" />
+          </AssociationSet>
+          <AssociationSet Name="FK_spendings__states_" Association="Self.FK_spendings__states_">
+            <End Role="states_" EntitySet="states_" />
+            <End Role="spendings_" EntitySet="spendings_" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Эко_РегионыModelContainer" CdmEntityContainer="Эко_РегионыEntities">
+          <EntitySetMapping Name="regions_">
+            <EntityTypeMapping TypeName="Эко_РегионыModel.regions_">
+              <MappingFragment StoreEntitySet="regions$">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="spendings_">
+            <EntityTypeMapping TypeName="Эко_РегионыModel.spendings_">
+              <MappingFragment StoreEntitySet="spendings$">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Код_региона" ColumnName="Код региона" />
+                <ScalarProperty Name="Код_статьи_затрат" ColumnName="Код статьи затрат" />
+                <ScalarProperty Name="Сумма" ColumnName="Сумма" />
+                <ScalarProperty Name="Год" ColumnName="Год" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="states_">
+            <EntityTypeMapping TypeName="Эко_РегионыModel.states_">
+              <MappingFragment StoreEntitySet="states$">
+                <ScalarProperty Name="Код" ColumnName="Код" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
